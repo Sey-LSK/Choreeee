@@ -4,10 +4,11 @@ import { users } from './user';
 const CHORES = [
     'Hallway',
     'Lounge',
+    'Laundry',
     'Kitchen',
     'Week off',
-    'Week Off',
-    'Bins'
+    'Bins',
+    'Week off'
 ];
 
 function getWeekNumber() {
