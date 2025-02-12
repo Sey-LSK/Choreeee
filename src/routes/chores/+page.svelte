@@ -42,7 +42,7 @@
     <div class="flex justify-between items-center mb-8">
       <h1
         class="text-3xl sm:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600"
-        style="padding: 0.5em 0;" <!-- Adjust padding here -->
+        style="padding: 0.5em 0;" 
       >
         Hi, {$selectedUser}
       </h1>
