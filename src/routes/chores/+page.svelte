@@ -1,18 +1,18 @@
 <script>
   import { onMount } from "svelte";
   import { currentChore } from "$lib/stores/chores";
-  import { users, selectedUser } from "$lib/stores/user";
+  import { selectedUser } from "$lib/stores/user";
   import { goto } from "$app/navigation";
 
   let deferredPrompt;
 
   onMount(() => {
-    currentChore.updateCurrentChore();
     selectedUser.init();
-    if ($selectedUser) {
-      goto("/chores");
+    if (!$selectedUser) {
+      goto("/");
+      return;
     }
-
+    currentChore.updateCurrentChore($selectedUser);
     window.addEventListener("beforeinstallprompt", (e) => {
       e.preventDefault();
       deferredPrompt = e;
@@ -27,9 +27,9 @@
     }
   }
 
-  function selectUser(user) {
-    selectedUser.set(user);
-    goto("/chores");
+  function switchUser() {
+    selectedUser.set(null);
+    goto("/");
   }
 </script>
 
@@ -39,11 +39,19 @@
   <main
     class="bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-2xl p-4 sm:p-8 w-full max-w-md transform transition-all hover:scale-[1.02] sm:hover:scale-105"
   >
-    <h1
-      class="text-3xl sm:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 mb-4 sm:mb-8 text-center"
-    >
-      Weekly Chore
-    </h1>
+    <div class="flex justify-between items-center mb-8">
+      <h1
+        class="text-3xl sm:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600"
+      >
+        Hi, {$selectedUser}
+      </h1>
+      <button
+        on:click={switchUser}
+        class="text-sm px-3 py-1 rounded-md bg-gray-100 hover:bg-gray-200 transition-colors"
+      >
+        Switch
+      </button>
+    </div>
 
     <div class="space-y-3 sm:space-y-4">
       <h2 class="text-lg sm:text-xl text-gray-700 font-medium text-center">
@@ -70,34 +78,3 @@
     {/if}
   </main>
 </div>
-
-<div
-  class="min-h-screen bg-gradient-to-br from-purple-500 via-pink-500 to-orange-500 flex items-center justify-center p-4 sm:p-6"
->
-  <main
-    class="bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-2xl p-4 sm:p-8 w-full max-w-md"
-  >
-    <h1
-      class="text-3xl sm:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 mb-8 text-center"
-    >
-      Who are you?
-    </h1>
-
-    <div class="grid gap-3">
-      {#each users as user}
-        <button
-          on:click={() => selectUser(user)}
-          class="w-full p-4 text-lg font-medium rounded-lg transition-all
-                           bg-gradient-to-r from-purple-100 to-pink-100 hover:from-purple-200 hover:to-pink-200
-                           transform hover:scale-[1.02] active:scale-100"
-        >
-          {user}
-        </button>
-      {/each}
-    </div>
-  </main>
-</div>
-
-<style>
-  @referance "tailwindcss/theme";
-</style>

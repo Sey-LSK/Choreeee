@@ -1,11 +1,13 @@
 import { writable } from 'svelte/store';
+import { users } from './user';
 
-const chores = [
-    'Clean Bathroom',
-    'Vacuum House',
-    'Do Laundry',
-    'Clean Kitchen',
-    'Dust Furniture'
+const CHORES = [
+    'Hallway',
+    'Lounge',
+    'Kitchen',
+    'Week off',
+    'Week Off',
+    'Bins'
 ];
 
 function getWeekNumber() {
@@ -20,10 +22,12 @@ function createChoreStore() {
     
     return {
         subscribe,
-        updateCurrentChore: () => {
+        updateCurrentChore: (username: string) => {
             const weekNumber = getWeekNumber();
-            const choreIndex = weekNumber % chores.length;
-            set(chores[choreIndex]);
+            const userIndex = users.indexOf(username);
+            // Ensure rotation works with new chore list length
+            const rotationOffset = (weekNumber + userIndex) % CHORES.length;
+            set(CHORES[rotationOffset]);
         }
     };
 }
