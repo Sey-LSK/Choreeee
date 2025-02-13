@@ -2,13 +2,13 @@ import { writable } from 'svelte/store';
 import { users } from './user';
 
 const CHORES = [
-    'Hallway',
-    'Lounge',
-    'Laundry',
-    'Kitchen',
-    'Week off',
-    'Bins',
-    'Week off'
+    'Hallway 🏠',
+    'Lounge📺',
+    'Laundry🧺',
+    'Kitchen🔪',
+    'Week off☺️',
+    'Bins🗑️',
+    'Week off 😀'
 ];
 
 function getWeekNumber() {
